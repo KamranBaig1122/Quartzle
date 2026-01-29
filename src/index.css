@@ -83,16 +83,4 @@
   scrollbar-width: none;
 }
 
-/* Center CardSwap on mobile */
-@media (max-width: 1023px) {
-  .card-swap-mobile-center > div > div {
-    position: absolute !important;
-    bottom: 50% !important;
-    right: 50% !important;
-    left: auto !important;
-    top: auto !important;
-    transform: translate(50%, 50%) !important;
-    transform-origin: center center !important;
-  }
-}
 

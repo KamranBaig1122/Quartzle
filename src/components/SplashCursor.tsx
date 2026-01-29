@@ -22,6 +22,8 @@ interface SplashCursorProps {
   COLOR_UPDATE_SPEED?: number;
   BACK_COLOR?: ColorRGB;
   TRANSPARENT?: boolean;
+  COLOR_PALETTE?: ColorRGB[];
+  COLOR_INTENSITY?: number;
 }
 
 interface Pointer {
@@ -66,7 +68,9 @@ export default function SplashCursor({
   SHADING = true,
   COLOR_UPDATE_SPEED = 10,
   BACK_COLOR = { r: 0.5, g: 0, b: 0 },
-  TRANSPARENT = true
+  TRANSPARENT = true,
+  COLOR_PALETTE,
+  COLOR_INTENSITY = 0.15
 }: SplashCursorProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -1130,10 +1134,20 @@ export default function SplashCursor({
     }
 
     function generateColor(): ColorRGB {
+      if (COLOR_PALETTE && COLOR_PALETTE.length > 0) {
+        // Pick a random color from the palette
+        const baseColor = COLOR_PALETTE[Math.floor(Math.random() * COLOR_PALETTE.length)];
+        return {
+          r: baseColor.r * COLOR_INTENSITY,
+          g: baseColor.g * COLOR_INTENSITY,
+          b: baseColor.b * COLOR_INTENSITY
+        };
+      }
+      // Default random color generation
       const c = HSVtoRGB(Math.random(), 1.0, 1.0);
-      c.r *= 0.15;
-      c.g *= 0.15;
-      c.b *= 0.15;
+      c.r *= COLOR_INTENSITY;
+      c.g *= COLOR_INTENSITY;
+      c.b *= COLOR_INTENSITY;
       return c;
     }
 
@@ -1277,7 +1291,9 @@ export default function SplashCursor({
     SHADING,
     COLOR_UPDATE_SPEED,
     BACK_COLOR,
-    TRANSPARENT
+    TRANSPARENT,
+    COLOR_PALETTE,
+    COLOR_INTENSITY
   ]);
 
   return (

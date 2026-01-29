@@ -48,12 +48,17 @@ interface Slot {
   zIndex: number;
 }
 
-const makeSlot = (i: number, distX: number, distY: number, total: number): Slot => ({
-  x: i * distX,
-  y: -i * distY,
-  z: -i * distX * 1.5,
-  zIndex: total - i
-});
+const makeSlot = (i: number, distX: number, distY: number, total: number): Slot => {
+  // Center the stack by offsetting based on the middle card position
+  const centerOffset = ((total - 1) * distX) / 2;
+  const centerOffsetY = ((total - 1) * distY) / 2;
+  return {
+    x: i * distX - centerOffset,
+    y: -i * distY + centerOffsetY,
+    z: -i * distX * 1.5,
+    zIndex: total - i
+  };
+};
 
 const placeNow = (el: HTMLElement, slot: Slot, skew: number) =>
   gsap.set(el, {
@@ -255,7 +260,7 @@ const CardSwap: React.FC<CardSwapProps> = ({
   return (
     <div
       ref={container}
-      className="absolute bottom-0 right-0 transform translate-x-[5%] translate-y-[20%] origin-bottom-right perspective-[900px] overflow-visible max-[768px]:translate-x-[25%] max-[768px]:translate-y-[45%] max-[768px]:scale-[0.75] max-[480px]:translate-x-[25%] max-[480px]:translate-y-[50%] max-[480px]:scale-[0.55]"
+      className="relative perspective-[900px] overflow-visible"
       style={{ width, height }}
     >
       {rendered}

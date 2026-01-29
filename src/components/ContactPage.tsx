@@ -1,6 +1,14 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
+import emailjs from '@emailjs/browser';
+
+// ⚠️ IMPORTANT: Replace these with your actual EmailJS credentials
+// Get them from: https://dashboard.emailjs.com/
+const EMAILJS_SERVICE_ID = 'service_b9tao8i';  // e.g., 'service_abc123'
+const EMAILJS_TEMPLATE_ID = 'template_b4kahce'; // e.g., 'template_xyz789'
+const EMAILJS_PUBLIC_KEY = 'ZbhlF1uF56EaIAEEn';   // e.g., 'AbCdEfGhIjKlMnOp'
 
 function ContactPage() {
+  const formRef = useRef<HTMLFormElement>(null);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -25,9 +33,15 @@ function ContactPage() {
     setIsSubmitting(true);
     setSubmitStatus('idle');
 
-    // Simulate form submission
-    setTimeout(() => {
-      setIsSubmitting(false);
+    try {
+      // Send email using EmailJS
+      await emailjs.sendForm(
+        EMAILJS_SERVICE_ID,
+        EMAILJS_TEMPLATE_ID,
+        formRef.current!,
+        EMAILJS_PUBLIC_KEY
+      );
+
       setSubmitStatus('success');
       setFormData({
         name: '',
@@ -42,7 +56,12 @@ function ContactPage() {
       setTimeout(() => {
         setSubmitStatus('idle');
       }, 5000);
-    }, 1000);
+    } catch (error) {
+      console.error('EmailJS Error:', error);
+      setSubmitStatus('error');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -149,7 +168,7 @@ function ContactPage() {
                 </div>
               )}
 
-              <form onSubmit={handleSubmit} className="space-y-6">
+              <form ref={formRef} onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                   <div>
                     <label htmlFor="name" className="block text-sm font-medium text-gray-300 mb-2">

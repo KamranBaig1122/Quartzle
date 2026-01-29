@@ -8,7 +8,7 @@ interface LayoutProps {
 function Layout({ children }: LayoutProps) {
   return (
     <section style={{ position: 'relative', minHeight: '100vh', overflow: 'visible' }}>
-      <div style={{ minHeight: '100vh', overflow: 'visible', padding: '6rem 2rem' }}>
+      <div className="min-h-screen overflow-visible px-4 pt-24 pb-16 sm:px-6 sm:pt-28 sm:pb-20 md:pt-32 lg:px-8 lg:pt-28 lg:pb-24">
         {children}
       </div>
 

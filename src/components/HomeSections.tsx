@@ -1,12 +1,31 @@
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
 // @ts-ignore
 import TiltedCard from './TiltedCard';
 import LogoSection from './LogoSection';
+import PortfolioModal, { PortfolioProject } from './PortfolioModal';
+import { portfolioProjects } from '../data/portfolioData';
 
 function HomeSections() {
+  const [selectedProject, setSelectedProject] = useState<PortfolioProject | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const openProjectModal = (project: PortfolioProject) => {
+    setSelectedProject(project);
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setSelectedProject(null);
+  };
+
+  // Show only first 3 projects on home page
+  const featuredProjects = portfolioProjects.slice(0, 3);
   return (
-    <div className="w-full space-y-16 sm:space-y-24 lg:space-y-32 py-12 sm:py-16 lg:py-24 xl:py-32 mb-8 sm:mb-12 lg:mb-16">
+    <div className="w-full space-y-16 sm:space-y-24 lg:space-y-32 py-12 sm:py-16 lg:py-24 xl:py-32">
       {/* Services Section */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section id="services" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 scroll-mt-24">
         <div className="text-center mb-8 sm:mb-12 lg:mb-16">
           <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-3 sm:mb-4">
             Our Services
@@ -152,7 +171,7 @@ function HomeSections() {
       </section>
 
       {/* About Section */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section id="about" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 scroll-mt-24">
         <div className="text-center mb-12 sm:mb-16 lg:mb-20">
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-4">
             About Quartzle
@@ -438,16 +457,7 @@ function HomeSections() {
             </p>
           </div>
 
-          <div className="mt-6 sm:mt-8 text-center md:mt-16 md:order-3">
-            <a
-              href="#"
-              className="pb-2 text-sm sm:text-base font-bold leading-7 text-white transition-all duration-200 border-b-2 border-purple-500 hover:border-purple-400 focus:outline-none focus:ring-1 focus:ring-purple-500 focus:ring-offset-2 hover:text-purple-400"
-            >
-              View all testimonials
-            </a>
-          </div>
-
-          <div className="relative mt-8 sm:mt-10 md:mt-24 md:order-2 w-full">
+          <div className="relative mt-8 sm:mt-10 md:mt-16 w-full">
             <div className="absolute -inset-x-1 inset-y-12 sm:inset-y-16 md:-inset-x-2 md:-inset-y-6">
               <div
                 className="w-full h-full max-w-5xl mx-auto rounded-2xl sm:rounded-3xl opacity-20 sm:opacity-30 blur-lg filter"
@@ -459,7 +469,7 @@ function HomeSections() {
             </div>
 
             <div className="relative grid max-w-lg grid-cols-1 gap-4 sm:gap-6 mx-auto md:max-w-none lg:gap-10 md:grid-cols-3">
-              {/* Testimonial 1 */}
+              {/* Testimonial 1 - Michael Anderson */}
               <div className="flex flex-col overflow-hidden shadow-xl rounded-xl">
                 <div className="flex flex-col justify-between flex-1 p-5 sm:p-6 bg-gradient-to-br from-black/60 to-black/40 border border-gray-700 rounded-xl lg:py-8 lg:px-7 backdrop-blur-sm hover:border-purple-500/50 transition-all duration-300">
                   <div className="flex-1">
@@ -479,7 +489,7 @@ function HomeSections() {
 
                     <blockquote className="flex-1 mt-6 sm:mt-8">
                       <p className="text-sm sm:text-base lg:text-lg leading-relaxed text-gray-200">
-                        "You made it so simple. My new site is so much faster and easier to work with than my old site. I just choose the page, make the change."
+                        "The team delivered an AI-driven web platform that exceeded our expectations. Their technical expertise in machine learning and modern web development helped us launch faster and more efficiently. Highly reliable and professional."
                       </p>
                     </blockquote>
                   </div>
@@ -487,18 +497,18 @@ function HomeSections() {
                   <div className="flex items-center mt-6 sm:mt-8">
                     <img
                       className="flex-shrink-0 object-cover rounded-full w-10 h-10 sm:w-11 sm:h-11 border-2 border-purple-500/30"
-                      src="https://cdn.rareblocks.xyz/collection/clarity/images/testimonial/4/avatar-male-1.png"
-                      alt="Leslie Alexander"
+                      src="/rev1.png"
+                      alt="Michael Anderson"
                     />
                     <div className="ml-3 sm:ml-4">
-                      <p className="text-sm sm:text-base font-bold text-white">Leslie Alexander</p>
-                      <p className="mt-0.5 text-xs sm:text-sm text-gray-400">Freelance React Developer</p>
+                      <p className="text-sm sm:text-base font-bold text-white">Michael Anderson</p>
+                      <p className="mt-0.5 text-xs sm:text-sm text-gray-400">Startup Founder</p>
                     </div>
                   </div>
                 </div>
               </div>
 
-              {/* Testimonial 2 */}
+              {/* Testimonial 2 - Emily Carter */}
               <div className="flex flex-col overflow-hidden shadow-xl rounded-xl">
                 <div className="flex flex-col justify-between flex-1 p-5 sm:p-6 bg-gradient-to-br from-black/60 to-black/40 border border-gray-700 rounded-xl lg:py-8 lg:px-7 backdrop-blur-sm hover:border-purple-500/50 transition-all duration-300">
                   <div className="flex-1">
@@ -518,7 +528,7 @@ function HomeSections() {
 
                     <blockquote className="flex-1 mt-6 sm:mt-8">
                       <p className="text-sm sm:text-base lg:text-lg leading-relaxed text-gray-200">
-                        "Simply the best. Better than all the rest. I'd recommend this product to beginners and advanced users."
+                        "Working with this team was a great experience. They combined strong AI/ML knowledge with clean, scalable web development. Communication was clear, and the final product was exactly what we needed."
                       </p>
                     </blockquote>
                   </div>
@@ -526,18 +536,18 @@ function HomeSections() {
                   <div className="flex items-center mt-6 sm:mt-8">
                     <img
                       className="flex-shrink-0 object-cover rounded-full w-10 h-10 sm:w-11 sm:h-11 border-2 border-purple-500/30"
-                      src="https://cdn.rareblocks.xyz/collection/clarity/images/testimonial/4/avatar-male-2.png"
-                      alt="Jacob Jones"
+                      src="/rev3.png"
+                      alt="Emily Carter"
                     />
                     <div className="ml-3 sm:ml-4">
-                      <p className="text-sm sm:text-base font-bold text-white">Jacob Jones</p>
-                      <p className="mt-0.5 text-xs sm:text-sm text-gray-400">Digital Marketer</p>
+                      <p className="text-sm sm:text-base font-bold text-white">Emily Carter</p>
+                      <p className="mt-0.5 text-xs sm:text-sm text-gray-400">Product Manager</p>
                     </div>
                   </div>
                 </div>
               </div>
 
-              {/* Testimonial 3 */}
+              {/* Testimonial 3 - Daniel Roberts */}
               <div className="flex flex-col overflow-hidden shadow-xl rounded-xl">
                 <div className="flex flex-col justify-between flex-1 p-5 sm:p-6 bg-gradient-to-br from-black/60 to-black/40 border border-gray-700 rounded-xl lg:py-8 lg:px-7 backdrop-blur-sm hover:border-purple-500/50 transition-all duration-300">
                   <div className="flex-1">
@@ -557,7 +567,7 @@ function HomeSections() {
 
                     <blockquote className="flex-1 mt-6 sm:mt-8">
                       <p className="text-sm sm:text-base lg:text-lg leading-relaxed text-gray-200">
-                        "I cannot believe that I have got a brand new landing page after getting Omega. It was super easy to edit and publish."
+                        "Exceptional work across both AI solutions and web development. They helped us automate processes and improve performance across our platform. I would confidently recommend them for any AI-based or web project."
                       </p>
                     </blockquote>
                   </div>
@@ -565,12 +575,12 @@ function HomeSections() {
                   <div className="flex items-center mt-6 sm:mt-8">
                     <img
                       className="flex-shrink-0 object-cover rounded-full w-10 h-10 sm:w-11 sm:h-11 border-2 border-purple-500/30"
-                      src="https://cdn.rareblocks.xyz/collection/clarity/images/testimonial/4/avatar-female.png"
-                      alt="Jenny Wilson"
+                      src="/rev2.png"
+                      alt="Daniel Roberts"
                     />
                     <div className="ml-3 sm:ml-4">
-                      <p className="text-sm sm:text-base font-bold text-white">Jenny Wilson</p>
-                      <p className="mt-0.5 text-xs sm:text-sm text-gray-400">Graphic Designer</p>
+                      <p className="text-sm sm:text-base font-bold text-white">Daniel Roberts</p>
+                      <p className="mt-0.5 text-xs sm:text-sm text-gray-400">E-commerce Business Owner</p>
                     </div>
                   </div>
                 </div>
@@ -579,6 +589,103 @@ function HomeSections() {
           </div>
         </div>
       </section>
+
+      {/* Portfolio Section */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-20">
+        <div className="text-center mb-8 sm:mb-12 lg:mb-16">
+          <span className="inline-block px-4 py-1.5 bg-purple-500/20 text-purple-400 text-sm font-medium rounded-full mb-4">
+            Our Work
+          </span>
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-3 sm:mb-4">
+            Featured Projects
+          </h2>
+          <p className="text-base sm:text-lg lg:text-xl text-gray-400 max-w-2xl mx-auto px-2">
+            Explore some of our recent work that showcases our expertise and innovation
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+          {featuredProjects.map((project) => (
+            <div
+              key={project.id}
+              onClick={() => openProjectModal(project)}
+              className="group cursor-pointer"
+            >
+              <div className="relative overflow-hidden rounded-xl bg-gradient-to-br from-black/60 to-black/40 border border-gray-700 backdrop-blur-sm hover:border-purple-500/50 transition-all duration-300 hover:shadow-lg hover:shadow-purple-500/20">
+                {/* Project Image */}
+                <div className="relative aspect-[16/10] overflow-hidden">
+                  <img
+                    src={project.thumbnail}
+                    alt={project.title}
+                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+                  
+                  {/* Hover Overlay */}
+                  <div className="absolute inset-0 bg-purple-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                    <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-full p-4 transform scale-0 group-hover:scale-100 transition-transform duration-300">
+                      <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                      </svg>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Project Info */}
+                <div className="p-5 sm:p-6">
+                  <span className="inline-block px-2.5 py-1 bg-purple-500/20 text-purple-400 text-xs font-medium rounded-full mb-3">
+                    {project.category}
+                  </span>
+                  <h3 className="text-lg sm:text-xl font-bold text-white mb-2 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-purple-400 group-hover:to-pink-400 transition-all">
+                    {project.title}
+                  </h3>
+                  <p className="text-sm text-gray-400 line-clamp-2">
+                    {project.description}
+                  </p>
+                  
+                  {/* Technologies Preview */}
+                  <div className="flex flex-wrap gap-1.5 mt-4">
+                    {project.technologies.slice(0, 3).map((tech, index) => (
+                      <span
+                        key={index}
+                        className="px-2 py-1 bg-gray-800/50 text-gray-400 text-xs rounded"
+                      >
+                        {tech}
+                      </span>
+                    ))}
+                    {project.technologies.length > 3 && (
+                      <span className="px-2 py-1 text-gray-500 text-xs">
+                        +{project.technologies.length - 3} more
+                      </span>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* View More Button */}
+        <div className="text-center mt-10 sm:mt-12">
+          <Link
+            to="/portfolio"
+            className="inline-flex items-center gap-2 px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-purple-500 to-pink-500 text-white font-semibold rounded-lg hover:from-purple-600 hover:to-pink-600 transition-all duration-200 text-sm sm:text-base shadow-lg shadow-purple-500/30 hover:shadow-purple-500/50 hover:scale-105"
+          >
+            <span>View All Projects</span>
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+            </svg>
+          </Link>
+        </div>
+      </section>
+
+      {/* Portfolio Modal */}
+      <PortfolioModal
+        project={selectedProject}
+        isOpen={isModalOpen}
+        onClose={closeModal}
+      />
 
       {/* CTA Section */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-8 sm:-mt-12 lg:-mt-16 mb-0">
